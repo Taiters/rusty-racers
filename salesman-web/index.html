@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+  </head>
+  <body>
+    <div id="app">
+      <table>
+        <tr>
+          <td>Width</td>
+          <td>
+            <input type="range" min="10" max="255" id="width" value="100" />
+          </td>
+          <td>
+            (<span id="width-value"></span>)
+          </td>
+        </tr>
+        <tr>
+          <td>Heights</td>
+          <td>
+            <input type="range" min="10" max="255" id="height" value="100" />
+          </td>
+          <td>
+            (<span id="height-value"></span>)
+          </td>
+        </tr>
+        <tr>
+          <td>Locations</td>
+          <td>
+            <input type="range" min="4" max="255" id="locations" value="6" />
+          </td>
+          <td>
+            (<span id="locations-value"></span>)
+          </td>
+        </tr>
+        <tr>
+          <td>Population</td>
+          <td>
+            <input type="range" min="50" max="5000" id="population" value="100" />
+          </td>
+          <td>
+            (<span id="population-value"></span>)
+          </td>
+        </tr>
+        <tr>
+          <td>Layout</td>
+          <td>
+            <select id="layout">
+              <option value="random">Random</option>
+              <option value="circle">Circle</option>
+            </select>
+          </td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>Crossover Rate</td>
+          <td>
+            <input type="range" min="0" max="1" id="crossover" value="0.3" step="0.05" />
+          </td>
+          <td>
+            (<span id="crossover-value"></span>)
+          </td>
+        </tr>
+        <tr>
+          <td>Mutation Rate</td>
+          <td>
+            <input type="range" min="0" max="1" id="mutation" value="0.01" step="0.01" />
+          </td>
+          <td>
+            (<span id="mutation-value"></span>)
+          </td>
+        </tr>
+      </table>
+      <canvas id="locations-map"></canvas>
+      <table>
+        <tr>
+          <td>Lowest distance (global):</td>
+          <td id="global-lowest-distance"></td>
+        </tr>
+        <tr>
+          <td>Lowest distance (generation):</td>
+          <td id="generation-lowest-distance"></td>
+        </tr>
+        <tr>
+          <td>Generations:</td>
+          <td id="generations"></td>
+        </tr>
+      </table>
+      <button id="tick">Tick</button>
+      <button id="run">Start</button>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
