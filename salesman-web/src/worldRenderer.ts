@@ -16,8 +16,13 @@ export class WorldRenderer {
 
         this.ctx.clearRect(-1, -1, this.ctx.canvas.width, this.ctx.canvas.height);
 
-        this.renderGenome(this.worldManager.fittestGenome, "blue");
-        this.renderGenome(this.worldManager.globalFittestGenome, "green");
+        this.ctx.globalAlpha = 0.5;
+        this.ctx.strokeStyle = "blue";
+        this.renderGenome(this.worldManager.fittestGenome);
+
+        this.ctx.globalAlpha = 1;
+        this.ctx.strokeStyle = "green";
+        this.renderGenome(this.worldManager.globalFittestGenome);
 
         this.ctx.fillStyle = "red";
         for (let i = 0; i < this.worldManager.locations.length; i += 2) {
@@ -30,8 +35,7 @@ export class WorldRenderer {
         }
     }
 
-    renderGenome(genome: Uint8Array, style: string) {
-        this.ctx.strokeStyle = style;
+    renderGenome(genome: Uint8Array) {
         this.ctx.beginPath()
         this.ctx.moveTo(
             this.worldManager.locations[genome[0] * 2],
