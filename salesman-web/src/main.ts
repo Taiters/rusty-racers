@@ -1,7 +1,7 @@
-import init, { Genome, World, WorldSettings } from "salesman";
-import {Config} from "./config";
-import {WorldManager} from "./worldManager";
-import {WorldRenderer} from "./worldRenderer";
+import init from "salesman";
+import { Config } from "./config";
+import { WorldManager } from "./worldManager";
+import { WorldRenderer } from "./worldRenderer";
 
 const config = new Config();
 const tickBtn = <HTMLButtonElement>document.getElementById("tick");
