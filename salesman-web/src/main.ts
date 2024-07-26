@@ -1,9 +1,16 @@
 import init from "salesman";
+import { ChartManager } from "./chartManager";
 import { Config } from "./config";
 import { WorldManager } from "./worldManager";
 import { WorldRenderer } from "./worldRenderer";
 
 const config = new Config();
+const chartManager = new ChartManager(
+    <HTMLCanvasElement>document.getElementById("chart"),
+    <HTMLElement>document.getElementById("chart-container"),
+    <HTMLButtonElement>document.getElementById("toggle-chart"),
+);
+
 const tickBtn = <HTMLButtonElement>document.getElementById("tick");
 const runBtn = <HTMLButtonElement>document.getElementById("run");
 const locationsMap = <HTMLCanvasElement>document.getElementById("locations-map");
@@ -21,8 +28,13 @@ init().then((instance) => {
         generationsCounter.innerText = `${worldManager.generations}`;
         generationLowestDistance.innerText = `${1 / worldManager.fittest.fitness}`;
         globalLowestDistance.innerText = `${1 / worldManager.bestFitness}`;
-
         renderer.render();
+
+        if (worldManager.generations === 0) {
+            chartManager.reset();
+        }
+
+        chartManager.append(worldManager.generations, 1 / worldManager.fittest.fitness);
     });
 
     tickBtn.onclick = () => worldManager.tick();
