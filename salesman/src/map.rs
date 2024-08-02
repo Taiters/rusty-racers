@@ -3,7 +3,6 @@ use std::f32::consts::PI;
 use rand::Rng;
 use wasm_bindgen::prelude::*;
 
-
 fn random_layout(width: u8, height: u8, number: u8) -> Vec<u8> {
     let mut rng = rand::thread_rng();
     (0..number)
@@ -18,10 +17,12 @@ fn circle_layout(width: u8, height: u8, number: u8) -> Vec<u8> {
 
     let step = PI * 2.0 / number as f32;
     (0..number)
-        .flat_map(|i| [
-            (cx as f32 + (f32::sin(step * i as f32) * radius)) as u8,
-            (cy as f32 + (f32::cos(step * i as f32) * radius)) as u8,
-        ])
+        .flat_map(|i| {
+            [
+                (cx as f32 + (f32::sin(step * i as f32) * radius)) as u8,
+                (cy as f32 + (f32::cos(step * i as f32) * radius)) as u8,
+            ]
+        })
         .collect::<Vec<u8>>()
 }
 
@@ -69,6 +70,9 @@ impl Map {
     }
 
     pub fn coords(&self, location_idx: usize) -> [u8; 2] {
-        [self.locations[location_idx * 2], self.locations[location_idx * 2 + 1]]
+        [
+            self.locations[location_idx * 2],
+            self.locations[location_idx * 2 + 1],
+        ]
     }
 }

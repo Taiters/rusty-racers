@@ -2,8 +2,6 @@ import { LocationLayout } from "salesman";
 import { getInput } from "./form";
 
 export class Config {
-    widthInput: HTMLInputElement;
-    heightInput: HTMLInputElement;
     locationsInput: HTMLInputElement;
     populationInput: HTMLInputElement;
     layoutInput: HTMLInputElement;
@@ -13,8 +11,6 @@ export class Config {
     cb: ((form: Config) => void) | null = null;
 
     constructor() {
-        this.widthInput = this.registerInput(getInput("width"));
-        this.heightInput = this.registerInput(getInput("height"));
         this.locationsInput = this.registerInput(getInput("locations"))
         this.populationInput = this.registerInput(getInput("population"));
         this.layoutInput = this.registerInput(getInput("layout"));
@@ -25,14 +21,6 @@ export class Config {
     registerInput(input: HTMLInputElement): HTMLInputElement {
         input.addEventListener('input', () => this.changed());
         return input;
-    }
-
-    width() {
-        return Number.parseInt(this.widthInput.value);
-    }
-
-    height() {
-        return Number.parseInt(this.heightInput.value);
     }
 
     locations() {

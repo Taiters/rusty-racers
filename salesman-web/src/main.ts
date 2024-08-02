@@ -1,15 +1,14 @@
+import './index.css';
+
 import init from "salesman";
-import { ChartManager } from "./chartManager";
 import { Config } from "./config";
 import { WorldManager } from "./worldManager";
 import { WorldRenderer } from "./worldRenderer";
 
+import playSVG from "./icons/play.svg?raw";
+import pauseSVG from "./icons/pause.svg?raw";
+
 const config = new Config();
-const chartManager = new ChartManager(
-    <HTMLCanvasElement>document.getElementById("chart"),
-    <HTMLElement>document.getElementById("chart-container"),
-    <HTMLButtonElement>document.getElementById("toggle-chart"),
-);
 
 const tickBtn = <HTMLButtonElement>document.getElementById("tick");
 const runBtn = <HTMLButtonElement>document.getElementById("run");
@@ -20,21 +19,16 @@ const generationLowestDistance = <HTMLElement>document.getElementById("generatio
 const generationsCounter = <HTMLElement>document.getElementById("generations");
 
 
+
 init().then((instance) => {
     const worldManager = new WorldManager(config, instance.memory);
     const renderer = new WorldRenderer(worldManager, ctx);
 
     worldManager.onTick(() => {
         generationsCounter.innerText = `${worldManager.generations}`;
-        generationLowestDistance.innerText = `${1 / worldManager.fittest.fitness}`;
-        globalLowestDistance.innerText = `${1 / worldManager.bestFitness}`;
+        generationLowestDistance.innerText = `${(1 / worldManager.fittest.fitness).toFixed(2)}`;
+        globalLowestDistance.innerText = `${(1 / worldManager.bestFitness).toFixed(2)}`;
         renderer.render();
-
-        if (worldManager.generations === 0) {
-            chartManager.reset();
-        }
-
-        chartManager.append(worldManager.generations, 1 / worldManager.fittest.fitness);
     });
 
     tickBtn.onclick = () => worldManager.tick();
@@ -47,7 +41,7 @@ init().then((instance) => {
                 cancelAnimationFrame(animationFrameRequest);
             }
             tickBtn.disabled = false;
-            runBtn.innerText = "Start";
+            runBtn.innerHTML = playSVG;
             running = false;
         } else {
             tickBtn.disabled = true;
@@ -57,7 +51,7 @@ init().then((instance) => {
                 animationFrameRequest = requestAnimationFrame(onFrame);
             }
             animationFrameRequest = requestAnimationFrame(onFrame);
-            runBtn.innerText = "Stop";
+            runBtn.innerHTML = pauseSVG;
         }
     }
 

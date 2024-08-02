@@ -14,8 +14,6 @@ export class WorldManager {
     locations!: Uint8Array;
     generations: number = 0;
     bestFitness: number = 0;
-    width!: number;
-    height!: number;
 
     tickCb: (() => void) | null = null;
 
@@ -28,8 +26,8 @@ export class WorldManager {
 
     updateWorld() {
         const settings = WorldSettings.new(
-            this.config.width(),
-            this.config.height(),
+            255,
+            255,
             this.config.locations(),
             this.config.population(),
             this.config.layout(),
@@ -46,8 +44,6 @@ export class WorldManager {
         );
         this.bestFitness = 0;
         this.replaceFittest(this.world.fittest());
-        this.width = this.config.width();
-        this.height = this.config.height();
 
         settings.free();
 

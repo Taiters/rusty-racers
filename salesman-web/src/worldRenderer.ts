@@ -11,8 +11,8 @@ export class WorldRenderer {
     }
 
     render() {
-        this.ctx.canvas.width = this.worldManager.width;
-        this.ctx.canvas.height = this.worldManager.height;
+        this.ctx.canvas.width = 255;
+        this.ctx.canvas.height = 255;
 
         this.ctx.clearRect(-1, -1, this.ctx.canvas.width, this.ctx.canvas.height);
 
