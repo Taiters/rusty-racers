@@ -36,11 +36,7 @@ export class WorldManager {
 
         this.world = World.new(settings);
         this.generations = 0;
-        this.locations = new Uint8Array(
-            this.memory.buffer,
-            this.world.locations(),
-            this.world.location_count() * 2,
-        );
+        this.locations = this.world.locations();
         this.bestFitness = 0;
         this.replaceFittest(this.world.fittest());
 

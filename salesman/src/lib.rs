@@ -136,8 +136,8 @@ impl World {
         self.map.locations().len() / 2
     }
 
-    pub fn locations(&self) -> *const u8 {
-        self.map.locations().as_ptr()
+    pub fn locations(&self) -> Vec<u8> {
+        self.map.locations().to_vec()
     }
 
     pub fn population_size(&self) -> usize {
