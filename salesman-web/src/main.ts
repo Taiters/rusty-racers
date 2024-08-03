@@ -18,6 +18,7 @@ const globalLowestDistance = <HTMLElement>document.getElementById("global-lowest
 const generationLowestDistance = <HTMLElement>document.getElementById("generation-lowest-distance");
 const generationsCounter = <HTMLElement>document.getElementById("generations");
 
+(<HTMLElement>document.getElementById("year")).innerText = `${new Date().getFullYear()}`
 
 
 init().then((instance) => {

@@ -11,11 +11,50 @@
 <body>
   <div class="container mx-auto px-4 max-w-screen-md">
     <div class="text-center mt-8">
-      <h1 class="text-4xl">Travelling Salesman</h1>
-      <h2 class="text-2xl">Using a genetic algorithm</h2>
+      <h1 class="text-5xl text-primary font-[Silkscreen]">Travelling Salesman</h1>
+      <button class="link text-secondary" onclick="my_modal_3.showModal()">What's this?</button>
+      <dialog id="my_modal_3" class="modal text-left">
+        <div class="modal-box">
+          <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          </form>
+          <h3 class="text-lg font-bold">About</h3>
+          <h3 class="font-bold mt-4">What is the Travelling Salesman Problem?</h4>
+          <p>Imagine a salesman who needs to visit multiple cities. The goal is to find the shortest possible route that visits each city exactly once and returns to the starting city. This is known as the Travelling Salesman Problem (TSP).</p>
+          <h4 class="font-bold mt-8">How Does This App Work?</h4>
+          <p>This app uses a genetic algorithm to approximate a solution to the TSP. Genetic algorithms are inspired by natural selection. They work by creating a population of random solutions, evaluating their fitness (in this case, the total distance of the route), and then breeding new solutions based on the best-performing ones.</p>
+          <h4 class="font-bold mt-8">Control Your Simulation</h4>
+          <p>You can customize the simulation using the following parameters:</p>
+          <ul class="list-disc ml-4">
+            <li class="my-2">
+              <strong>Location Count</strong><br/>
+              <span class="opacity-70 italic">Determines the number of cities the salesman must visit.</span>
+            </li>
+            <li class="my-2">
+              <strong>Layout</strong><br/>
+              <span class="opacity-70 italic">Choose between 'Random' to position cities randomly or 'Circle' to arrange them in a circle.</span>
+            </li>
+            <li class="my-2">
+              <strong>Population</strong><br/>
+              <span class="opacity-70 italic">Sets the number of potential solutions the algorithm will consider in each generation.</span>
+            </li>
+            <li class="my-2">
+              <strong>Crossover Rate</strong><br/>
+              <span class="opacity-70 italic">Controls how often genetic information is exchanged between solutions during breeding.</span>
+            </li>
+            <li class="my-2">
+              <strong>Mutation Rate</strong><br/>
+              <span class="opacity-70 italic">Determines the likelihood of random changes in a solution, introducing diversity.</span>
+            </li>
+          </ul>
+          <p>By adjusting these parameters, you can experiment with different conditions and observe how the genetic algorithm finds solutions.</p>
+          <h4 class="font-bold mt-8">Want to learn more about genetic algorithms?</h4>
+          <p>This video is a good introduction: <a class="link" href="https://youtu.be/uQj5UNhCPuo?si=pH5N6ScRiHaVkvxB">Genetic Algorithms Explained By Example - Kie Codes</a></p>
+        </div>
+      </dialog>
     </div>
-    <canvas id="locations-map" class="w-full"></canvas>
-    <div class="mx-auto w-fit">
+    <canvas id="locations-map" class="w-full mt-8"></canvas>
+    <div class="mx-auto w-fit mt-8">
       <button id="run" class="btn btn-circle">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
@@ -28,8 +67,8 @@
         </svg>
       </button>
     </div>
-    <div class="w-fit mx-auto mt-8">
-      <div class="stats shadow">
+    <div class="w-fit lg:mx-auto mt-8">
+      <div class="stats stats-vertical lg:stats-horizontal shadow">
         <div class="stat">
           <div class="stat-title">Generations</div>
           <div class="stat-value" id="generations">0</div>
@@ -47,14 +86,14 @@
       </div>
     </div>
 
-    <div class="card w-96 my-8 mx-auto shadow-xl bg-neutral text-neutral-content">
+    <div class="card w-96 mt-8 mx-auto shadow-xl bg-neutral text-neutral-content">
       <div class="card-body">
         <h2 class="card-title">Settings</h2>
         <div class="flex flex-row justify-between opacity-60">
           <label class="text-lg" for="locations">Location Count</label>
           <span class="font-bold" id="locations-value"></span>
         </div>
-        <input class="range" type="range" min="4" max="255" name="locations" id="locations" value="10" />
+        <input class="range" type="range" min="4" max="100" name="locations" id="locations" value="15" />
         <div class="flex flex-row gap-4 items-center opacity-60">
           <label class="text-lg" for="layout">Layout</label>
           <select name="layout" id="layout" class="select select-bordered w-full">
@@ -83,7 +122,9 @@
         <input class="range" type="range" min="0" max="1" step="0.01" name="mutation" id="mutation" value="0.03" />
       </div>
     </div>
-
+    <p class="my-8 text-center">
+      © <span id="year"></span> Dan Tait - <a class="link" href="https://dotslashdan.com">dotslashdan.com</a>
+    </p>
   </div>
   <script type="module" src="/src/main.ts"></script>
 </body>
