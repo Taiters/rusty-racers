@@ -12,6 +12,7 @@ const config = new Config();
 
 const tickBtn = <HTMLButtonElement>document.getElementById("tick");
 const runBtn = <HTMLButtonElement>document.getElementById("run");
+const resetBtn = <HTMLButtonElement>document.getElementById("reset");
 const locationsMap = <HTMLCanvasElement>document.getElementById("locations-map");
 const ctx = <CanvasRenderingContext2D>locationsMap.getContext("2d");
 const globalLowestDistance = <HTMLElement>document.getElementById("global-lowest-distance");
@@ -25,6 +26,9 @@ init().then((instance) => {
     const worldManager = new WorldManager(config, instance.memory);
     const renderer = new WorldRenderer(worldManager, ctx);
 
+    let running = false;
+    let animationFrameRequest: number | null = null;
+
     worldManager.onTick(() => {
         generationsCounter.innerText = `${worldManager.generations}`;
         generationLowestDistance.innerText = `${(1 / worldManager.fittest.fitness).toFixed(2)}`;
@@ -32,29 +36,38 @@ init().then((instance) => {
         renderer.render();
     });
 
-    tickBtn.onclick = () => worldManager.tick();
+    const stopRunning = () => {
+        if (animationFrameRequest != null) {
+            cancelAnimationFrame(animationFrameRequest);
+        }
+        tickBtn.disabled = false;
+        runBtn.innerHTML = playSVG;
+        running = false;
+    }
 
-    let running = false;
-    let animationFrameRequest: number | null = null;
+    const startRunning = () => {
+        tickBtn.disabled = true;
+        running = true;
+        function onFrame() {
+            worldManager.tick();
+            animationFrameRequest = requestAnimationFrame(onFrame);
+        }
+        animationFrameRequest = requestAnimationFrame(onFrame);
+        runBtn.innerHTML = pauseSVG;
+    }
+
+    tickBtn.onclick = () => worldManager.tick();
+    resetBtn.onclick = () => {
+        stopRunning();
+        worldManager.updateWorld();
+    }
     runBtn.onclick = () => {
         if (running) {
-            if (animationFrameRequest != null) {
-                cancelAnimationFrame(animationFrameRequest);
-            }
-            tickBtn.disabled = false;
-            runBtn.innerHTML = playSVG;
-            running = false;
+            stopRunning();
         } else {
-            tickBtn.disabled = true;
-            running = true;
-            function onFrame() {
-                worldManager.tick();
-                animationFrameRequest = requestAnimationFrame(onFrame);
-            }
-            animationFrameRequest = requestAnimationFrame(onFrame);
-            runBtn.innerHTML = pauseSVG;
+            startRunning();
         }
     }
 
-    renderer.render();
+    worldManager.updateWorld();
 });

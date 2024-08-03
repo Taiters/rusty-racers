@@ -21,7 +21,6 @@ export class WorldManager {
         this.config = config;
         this.memory = memory;
         this.config.onChange(() => this.updateWorld());
-        this.updateWorld();
     }
 
     updateWorld() {
