@@ -88,7 +88,7 @@ init().then((instance) => {
     worldManager.updateWorld();
 });
 
-posthog.init('phc_JNCtmjdxi1BSirexycHMkbTIB1H2VhhMGQwzbMClf9w',
+posthog.init('phc_8nwD1m0sIgnFFkfe3CSBWzawKIJnNyzCQeIoKKdZUT8',
     {
         api_host: 'https://eu.i.posthog.com',
         person_profiles: 'identified_only' // or 'always' to create profiles for anonymous users as well
