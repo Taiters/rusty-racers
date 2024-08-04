@@ -7,6 +7,7 @@ import { WorldRenderer } from "./worldRenderer";
 
 import playSVG from "./icons/play.svg?raw";
 import pauseSVG from "./icons/pause.svg?raw";
+import posthog from 'posthog-js';
 
 const config = new Config();
 
@@ -28,6 +29,15 @@ init().then((instance) => {
 
     let running = false;
     let animationFrameRequest: number | null = null;
+
+    const getEventProperties = () => ({
+        generation: worldManager.generations,
+        locations: config.locations(),
+        layout: config.layout(),
+        population: config.population(),
+        crossoverRate: config.crossover(),
+        mutationRate: config.mutation(),
+    })
 
     worldManager.onTick(() => {
         generationsCounter.innerText = `${worldManager.generations}`;
@@ -56,18 +66,31 @@ init().then((instance) => {
         runBtn.innerHTML = pauseSVG;
     }
 
-    tickBtn.onclick = () => worldManager.tick();
+    tickBtn.onclick = () => {
+        worldManager.tick();
+        posthog.capture("tick_pressed", getEventProperties());
+    }
     resetBtn.onclick = () => {
         stopRunning();
         worldManager.updateWorld();
+        posthog.capture("reset_pressed", getEventProperties());
     }
     runBtn.onclick = () => {
         if (running) {
             stopRunning();
+            posthog.capture("pause_pressed", getEventProperties());
         } else {
             startRunning();
+            posthog.capture("run_pressed", getEventProperties());
         }
     }
 
     worldManager.updateWorld();
 });
+
+posthog.init('phc_JNCtmjdxi1BSirexycHMkbTIB1H2VhhMGQwzbMClf9w',
+    {
+        api_host: 'https://eu.i.posthog.com',
+        person_profiles: 'identified_only' // or 'always' to create profiles for anonymous users as well
+    }
+)

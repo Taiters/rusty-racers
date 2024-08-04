@@ -19,6 +19,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",
     "chart.js": "^4.4.3",
+    "posthog-js": "^1.154.2",
     "reset-css": "^5.0.2",
     "salesman": "file:../salesman/pkg"
   }
