@@ -1,8 +1,7 @@
 use rand::{distributions::WeightedIndex, prelude::*};
-use std::{collections::HashSet};
+use std::collections::HashSet;
 
 use crate::map;
-
 
 pub fn generate<R: Rng>(size: u8, rng: &mut R) -> Vec<u8> {
     let mut genome = (0..size as u8).collect::<Vec<u8>>();
@@ -12,25 +11,21 @@ pub fn generate<R: Rng>(size: u8, rng: &mut R) -> Vec<u8> {
 
 pub fn fitness(genome: &[u8], map: &map::Map) -> f32 {
     let length = genome.len();
-    1.0 / (
-        genome
-            .windows(2)
-            .map(|pair| distance(
-                &map.coords(pair[0] as usize),
-                &map.coords(pair[1] as usize),
-            ))
-            .sum::<f32>() + distance(
-                &map.coords(genome[length-1] as usize),
-                &map.coords(genome[0] as usize),
-            )
-    )
+    1.0 / (genome
+        .windows(2)
+        .map(|pair| distance(&map.coords(pair[0] as usize), &map.coords(pair[1] as usize)))
+        .sum::<f32>()
+        + distance(
+            &map.coords(genome[length - 1] as usize),
+            &map.coords(genome[0] as usize),
+        ))
 }
 
 fn gen_crossover_range(length: usize, rng: &mut impl Rng) -> (usize, usize) {
     let start = rng.gen::<usize>() % (length - 1);
     let remaining_width = length - start;
-    let width = 2 + ((rng.gen::<usize>() % (remaining_width+1)).saturating_sub(2));
-    (start, start+width)
+    let width = 2 + ((rng.gen::<usize>() % (remaining_width + 1)).saturating_sub(2));
+    (start, start + width)
 }
 
 pub fn crossover<R: Rng>(a: &[u8], b: &[u8], rng: &mut R) -> Vec<u8> {
@@ -66,7 +61,7 @@ pub fn mutate<R: Rng>(genome: &mut [u8], rng: &mut R) {
     while {
         b = rng.gen::<usize>() % size;
         b == a
-    }{}
+    } {}
     genome.swap(a, b);
 }
 
@@ -106,15 +101,12 @@ mod tests {
     #[test]
     fn test_select() {
         let population = vec![
-            1,  2,  3,  4,  5,
-            6,  7,  8,  9,  10,
-            11, 12, 13, 14, 15,
-            16, 17, 18, 19, 20,
-            21, 22, 23, 24, 25,
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+            25,
         ];
         let fitnesses: Vec<f32> = vec![0.0, 1.0, 0.0, 0.0, 1.0];
         let mut rng = StepRng::new(0, 1000);
-        
+
         let result = select(&population, &fitnesses, &mut rng);
 
         assert_eq!(result, vec![6, 7, 8, 9, 10, 21, 22, 23, 24, 25]);
@@ -123,11 +115,7 @@ mod tests {
     #[test]
     fn test_crossover() {
         let mut rng = StepRng::new(1, 2);
-        let result = crossover(
-            &[6, 2, 1, 4, 5, 3],
-            &[5, 3, 1, 2, 4, 6],
-            &mut rng
-        );
+        let result = crossover(&[6, 2, 1, 4, 5, 3], &[5, 3, 1, 2, 4, 6], &mut rng);
 
         assert_eq!(result, vec![5, 2, 1, 4, 3, 6]);
     }
@@ -135,11 +123,7 @@ mod tests {
     #[test]
     fn test_crossover_at_start() {
         let mut rng = StepRng::new(0, 3);
-        let result = crossover(
-            &[6, 2, 1, 4, 5, 3],
-            &[5, 3, 1, 2, 4, 6],
-            &mut rng
-        );
+        let result = crossover(&[6, 2, 1, 4, 5, 3], &[5, 3, 1, 2, 4, 6], &mut rng);
 
         assert_eq!(result, vec![6, 2, 1, 5, 3, 4]);
     }
@@ -147,11 +131,7 @@ mod tests {
     #[test]
     fn test_crossover_at_end() {
         let mut rng = StepRng::new(2, 2);
-        let result = crossover(
-            &[6, 2, 1, 4, 5, 3],
-            &[5, 3, 1, 2, 4, 6],
-            &mut rng
-        );
+        let result = crossover(&[6, 2, 1, 4, 5, 3], &[5, 3, 1, 2, 4, 6], &mut rng);
 
         assert_eq!(result, vec![2, 6, 1, 4, 5, 3]);
     }
@@ -171,13 +151,12 @@ mod tests {
         let genome: [u8; 4] = [0, 2, 1, 3];
         let map = map::Map::new(50, 50, 4, map::LocationLayout::Random);
 
-        let expected = 1.0 / (
-            distance(&map.coords(0), &map.coords(2)) +
-            distance(&map.coords(2), &map.coords(1)) +
-            distance(&map.coords(1), &map.coords(3)) +
-            distance(&map.coords(3), &map.coords(0))
-        );
-        
+        let expected = 1.0
+            / (distance(&map.coords(0), &map.coords(2))
+                + distance(&map.coords(2), &map.coords(1))
+                + distance(&map.coords(1), &map.coords(3))
+                + distance(&map.coords(3), &map.coords(0)));
+
         assert_eq!(fitness(&genome, &map), expected);
     }
 

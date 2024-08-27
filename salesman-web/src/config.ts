@@ -7,6 +7,7 @@ export class Config {
     layoutInput: HTMLInputElement;
     crossoverInput: HTMLInputElement;
     mutationInput: HTMLInputElement;
+    elitismInput: HTMLInputElement;
 
     cb: ((form: Config) => void) | null = null;
 
@@ -16,6 +17,7 @@ export class Config {
         this.layoutInput = this.registerInput(getInput("layout"));
         this.crossoverInput = this.registerInput(getInput("crossover"));
         this.mutationInput = this.registerInput(getInput("mutation"));
+        this.elitismInput = this.registerInput(getInput("elitism"));
     }
 
     registerInput(input: HTMLInputElement): HTMLInputElement {
@@ -48,6 +50,10 @@ export class Config {
 
     mutation() {
         return Number.parseFloat(this.mutationInput.value);
+    }
+
+    elitism() {
+        return Number.parseFloat(this.elitismInput.value);
     }
 
     changed() {

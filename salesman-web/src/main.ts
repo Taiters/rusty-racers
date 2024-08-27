@@ -37,6 +37,7 @@ init().then((instance) => {
         population: config.population(),
         crossoverRate: config.crossover(),
         mutationRate: config.mutation(),
+        elitismRate: config.elitism(),
     })
 
     worldManager.onTick(() => {

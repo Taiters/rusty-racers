@@ -32,6 +32,7 @@ export class WorldManager {
             this.config.layout(),
             this.config.crossover(),
             this.config.mutation(),
+            this.config.elitism(),
         );
 
         this.world = World.new(settings);

@@ -64,6 +64,10 @@
               <strong>Mutation Rate</strong><br/>
               <span class="opacity-70 italic">Determines the likelihood of random changes in a solution, introducing diversity.</span>
             </li>
+            <li class="my-2">
+              <strong>Elitism Rate</strong><br/>
+              <span class="opacity-70 italic">Determines what percentage of the top solutions to copy into the next generation unmodified.</span>
+            </li>
           </ul>
           <p>By adjusting these parameters, you can experiment with different conditions and observe how the genetic algorithm finds solutions.</p>
           <h4 class="font-bold mt-8">Want to learn more about genetic algorithms?</h4>
@@ -143,6 +147,12 @@
           <span class="font-bold" id="mutation-value"></span>
         </div>
         <input class="range" type="range" min="0" max="1" step="0.01" name="mutation" id="mutation" value="0.03" />
+
+        <div class="flex flex-row justify-between opacity-60">
+          <label class="text-lg" for="elitism">Elitism Rate</label>
+          <span class="font-bold" id="elitism-value"></span>
+        </div>
+        <input class="range" type="range" min="0" max="0.5" step="0.01" name="elitism" id="elitism" value="0" />
       </div>
     </div>
     <div class="text-center">
